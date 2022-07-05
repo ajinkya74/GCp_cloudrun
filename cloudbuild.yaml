@@ -1,0 +1,15 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/cloud-function-tests-337419/github.com/ajinkya74/gcp_cloudrun:$SHORT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/cloud-function-tests-337419/github.com/ajinkya74/gcp_cloudrun:$SHORT_SHA']
+- name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'beta',
+        'run',
+        'deploy',
+        'gcp_cloudrun',
+        '--image=gcr.io/cloud-function-tests-337419/github.com/ajinkya74/gcp_cloudrun:$SHORT_SHA',
+        '--region=us-central1',
+      ]
