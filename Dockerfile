@@ -1,9 +1,12 @@
-FROM python:3
-# i have chosen /usr/app/src
-WORKDIR /usr/app/src
-#to COPY the remote file at working directory in container
-COPY  hello.py ./
-#CMD instruction should be used to run the software
-#contained by your image, along with any arguments.
+FROM python:3.7-slim
+WORKDIR /app
+ADD . /app
 
-CMD [ "python", "./hello.py"]
+# Install any necessary dependencies
+RUN pip3 install -r requirements.txt
+
+# Open port 8080 for serving the webpage
+EXPOSE 8080
+
+# Run app.py when the container launches
+CMD ["python3", "app.py"]
